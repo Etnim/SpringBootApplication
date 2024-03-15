@@ -1,7 +1,5 @@
 package com.swedbank.StudentApplication.task;
 
-import com.swedbank.StudentApplication.person.Person;
-import com.swedbank.StudentApplication.person.exception.PersonNotFoundException;
 import com.swedbank.StudentApplication.task.exceptiion.TaskExistsException;
 import com.swedbank.StudentApplication.task.exceptiion.TaskNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +36,14 @@ public class TaskServiceImpl implements  TaskService{
     }
 
     @Override
-    public void update(Task task) throws TaskNotFoundException {
+    public Task update(Task task) throws TaskNotFoundException {
         Task existingTask = repository.findById(task.getId()).orElseThrow(() -> new TaskNotFoundException(task.getId()));
         existingTask.setDetails(task.getDetails());
         existingTask.setEndDate(task.getEndDate());
         existingTask.setShortDesc(task.getShortDesc());
         existingTask.setStartDate(task.getStartDate());
+        Task updatedTask = repository.save(existingTask);
+        return  updatedTask;
     }
 
     @Override

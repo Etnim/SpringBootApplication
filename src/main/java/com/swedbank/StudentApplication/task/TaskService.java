@@ -13,7 +13,7 @@ public interface TaskService {
 
     Task save(Task task) throws TaskExistsException;
 
-    void update(Task task) throws TaskNotFoundException;
+    Task update(Task task) throws TaskNotFoundException;
 
     void delete(long id) throws TaskNotFoundException;
 
