@@ -33,4 +33,9 @@ public class TaskController {
         List<Task> tasks = service.findAll();
         return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable final long id){
+        service.delete(id);
+        return ResponseEntity.ok().build();
+    }
 }
