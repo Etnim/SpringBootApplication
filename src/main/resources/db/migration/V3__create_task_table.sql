@@ -8,3 +8,6 @@ CREATE TABLE task (
 );
 
 create sequence task_sequence start with 1 increment by 1;
+
+insert into "TASK" (short_desc, details, start_date, end_date)
+values ('Test task description', 'This is test details', '2024-03-15', '2024-03-18');
