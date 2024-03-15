@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("api/tasks")
@@ -24,5 +26,11 @@ public class TaskController {
     public ResponseEntity<Task> createTask(@RequestBody final Task task){
         Task saveTask = service.save(task);
         return new ResponseEntity<>(saveTask, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Task>> getAllTasks(){
+        List<Task> tasks = service.findAll();
+        return new ResponseEntity<List<Task>>(tasks, HttpStatus.OK);
     }
 }
