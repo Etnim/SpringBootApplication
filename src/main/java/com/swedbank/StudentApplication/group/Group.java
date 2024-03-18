@@ -30,18 +30,18 @@ public class Group implements Serializable {
     @EqualsAndHashCode.Exclude
     private Set<Person> persons;
 
-    //HOME WORK
-    //@OneToMany(mappedBy="group", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
-    //@JsonIgnore
-    //@ToString.Exclude
-    //@EqualsAndHashCode.Exclude
-    //private Set<Task> tasks;
+    //HOMEWORK
+    @OneToMany(mappedBy="group", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Task> tasks;
 
-    public Group(@NonNull String name, String details, Set<Person> persons) {
+    public Group(@NonNull String name, String details, Set<Person> persons, Set<Task> tasks) {
         super();
         this.name = name;
         this.details = details;
         this.persons = persons;
+        this.tasks = tasks;
     }
-    //34.13
 }

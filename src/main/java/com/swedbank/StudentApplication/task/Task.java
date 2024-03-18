@@ -12,17 +12,16 @@ import java.util.Date;
 
 @Entity
 @NoArgsConstructor
-@Table(name = "TASK")
 @Setter
 @Data
+@Table(name = "task")
 public class Task {
 
-
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "tid", updatable = false, nullable = false)
     @SequenceGenerator(name = "task_generator", sequenceName = "task_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_generator")
-    private long id;
+    private long tid;
 
 
     @NotNull
@@ -44,12 +43,12 @@ public class Task {
     @Column(name = "end_date")
     private Date endDate;
 
-//    @ManyToOne
-//    @JoinColumn(name = "group_id", nullable = true)
-//    @JsonIgnore
-//    @ToString.Exclude
-//    @EqualsAndHashCode.Exclude
-//    private Group group;
+    @ManyToOne
+    @JoinColumn(name = "group_id", nullable = true)
+    @JsonIgnore
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Group group;
 
     /**
      * Instantiates a new task.
@@ -59,7 +58,7 @@ public class Task {
      * @param startDate the start date
      * @param endDate   the end date
      */
-    public Task(String shortDesc, String details, Date startDate, Date endDate) {
+    public Task(String shortDesc, String details, Date startDate, Date endDate, Group group) {
         super();
         this.shortDesc = shortDesc;
         this.details = details;

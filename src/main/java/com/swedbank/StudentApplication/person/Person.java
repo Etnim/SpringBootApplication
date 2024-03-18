@@ -19,43 +19,25 @@ import java.util.Set;
 @Table(name = "person")
 public class Person implements Serializable {
 
-    /**
-     * The pid.
-     */
     @Id
     @NotNull
     private long pid;
 
-    /**
-     * The name.
-     */
     @NotNull
     @NotBlank
     @Column(name = "first_name")
     private String name;
 
-    /**
-     * The middle name.
-     */
     @Column(name = "middle_name")
     private String middleName;
 
-    /**
-     * The surname.
-     */
     @NotNull
     @NotBlank
     @Column(name = "last_name")
     private String surname;
 
-    /**
-     * The email.
-     */
     private String email;
 
-    /**
-     * The phone.
-     */
     private String phone;
 
     @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
@@ -65,6 +47,4 @@ public class Person implements Serializable {
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     private Set<Group> groups;
-//1323.9
-    //14.0430
 }

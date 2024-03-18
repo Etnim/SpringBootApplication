@@ -37,7 +37,7 @@ public class TaskServiceImpl implements  TaskService{
 
     @Override
     public Task update(Task task) throws TaskNotFoundException {
-        Task existingTask = repository.findById(task.getId()).orElseThrow(() -> new TaskNotFoundException(task.getId()));
+        Task existingTask = repository.findById(task.getTid()).orElseThrow(() -> new TaskNotFoundException(task.getTid()));
         existingTask.setDetails(task.getDetails());
         existingTask.setEndDate(task.getEndDate());
         existingTask.setShortDesc(task.getShortDesc());

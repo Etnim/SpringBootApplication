@@ -1,5 +1,10 @@
 package com.swedbank.StudentApplication.group;
 
+import com.swedbank.StudentApplication.person.Person;
+import com.swedbank.StudentApplication.person.exception.PersonNotFoundException;
+import com.swedbank.StudentApplication.task.Task;
+import com.swedbank.StudentApplication.task.TaskService;
+import com.swedbank.StudentApplication.task.exceptiion.TaskNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -7,24 +12,25 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("api/groups")
 public class GroupController {
 
-    private static final Logger log = LoggerFactory.getLogger(GroupController.class);
-
     private final GroupService service;
+    private final TaskService taskService;
 
-    public GroupController(GroupService service){
+    public GroupController(GroupService service, TaskService taskService){
         this.service = service;
+        this.taskService = taskService;
     }
 
     @GetMapping
     public ResponseEntity<List<Group>> getAllGroups(){
         List<Group> groups = service.findAll();
-        return new ResponseEntity<List<Group>>(groups, HttpStatus.OK);
+        return new ResponseEntity<>(groups, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
@@ -54,6 +60,33 @@ public class GroupController {
     @DeleteMapping
     public ResponseEntity<Void> deleteAllGroups(){
         service.deleteAll();
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("{tid}/addTask/{id}")
+    public ResponseEntity<?> addTaskToGroup(@PathVariable long tid, @PathVariable long id) throws TaskNotFoundException {
+        Task task = taskService.findById(tid);
+        Group group = service.findById(id);
+
+        Set<Task> tasks = group.getTasks();
+        tasks.add(task);
+        task.setGroup(group);
+        service.saveAndFlush(group);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{tid}/removeTask/{id}")
+    public ResponseEntity<?> removeTaskFromGroup(@PathVariable long tid, @PathVariable long id) throws TaskNotFoundException {
+        Task task = taskService.findById(tid);
+        Group group = service.findById(id);
+
+        Set<Task> tasks = group.getTasks();
+
+        if (tasks.contains(task)) {
+            tasks.remove(task);
+            task.setGroup(group);
+            service.saveAndFlush(group);
+        }
         return ResponseEntity.ok().build();
     }
 }

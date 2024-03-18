@@ -9,13 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GroupServiceImpl  implements GroupService{
+public class GroupServiceImpl implements GroupService {
 
-    private final  GroupRepository repository;
+    private final GroupRepository repository;
 
     @Autowired
     public GroupServiceImpl(GroupRepository repository) {
-
         this.repository = repository;
     }
 
@@ -36,11 +35,11 @@ public class GroupServiceImpl  implements GroupService{
 
     @Override
     public Group update(Group group) throws GroupNotFoundException {
-
-        Group existingGroup = repository.findById(group.getId()).orElseThrow(() ->new GroupNotFoundException(group.getId()));
+        Group existingGroup = repository.findById(group.getId()).orElseThrow(() -> new GroupNotFoundException(group.getId()));
         existingGroup.setName(group.getName());
         existingGroup.setDetails(group.getDetails());
         existingGroup.setPersons(group.getPersons());
+        existingGroup.setTasks(group.getTasks());
         Group updatedGroup = repository.save(existingGroup);
         return updatedGroup;
     }

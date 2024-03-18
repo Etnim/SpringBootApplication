@@ -1,5 +1,3 @@
---Swedbank demo database
-
 --Person table
 CREATE TABLE person
 (
